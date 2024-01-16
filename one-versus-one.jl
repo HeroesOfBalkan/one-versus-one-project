@@ -49,13 +49,22 @@ scatter!(input_plot, data_test.boja, data_test.velicina)
     # Klasifikacija 1: Sljiva vs Jabuka
     # Klasifikacija 2: Sljiva vs Banana
     # Klasifikacija 3: Jabuka vs Banana
-fm1 = @formula(voce != 3 ~ boja + velicina)
-fm2 = @formula(voce != 2 ~ boja + velicina)
-fm3 = @formula(voce != 1 ~ boja + velicina)
+# fm1 = @formula(voce != 3 ~ boja + velicina)
+# fm2 = @formula(voce != 2 ~ boja + velicina)
+# fm3 = @formula(voce != 1 ~ boja + velicina)
+# formula1 = @formula(voce == 1 ~ boja + velicina)
+# formula2 = @formula(voce == 1 ~ boja + velicina)
+# formula3 = @formula(voce == 2 ~ boja + velicina)
+fm1 = @formula((voce != 3) ~ boja + velicina)
+fm2 = @formula((voce != 2) ~ boja + velicina)
+fm3 = @formula((voce != 1) ~ boja + velicina)
 
 classification1 = glm(fm1, data_train, Binomial(), ProbitLink()) # Sljiva vs Jabuka
 classification2 = glm(fm2, data_train, Binomial(), ProbitLink()) # Sljiva vs Banana
 classification3 = glm(fm3, data_train, Binomial(), ProbitLink()) # Jabuka vs Banana
+# classification1 = glm(formula1, filter(x -> x != 3, data_train), Binomial(), ProbitLink()) # Sljiva vs Jabuka
+# classification2 = glm(formula2, filter(x -> x != 2, data_train), Binomial(), ProbitLink()) # Sljiva vs Banana
+# classification3 = glm(formula3, filter(x -> x != 1, data_train), Binomial(), ProbitLink()) # Jabuka vs Banana
 
 # Predvidjanje podataka OvO regresijom
 data_test_prediction1 = predict(classification1, data_test)
